@@ -219,6 +219,9 @@ app.post("/api/subscribe-channel", async (req, res) => {
     return res.status(400).json({ error: "Enter a valid Kick username." });
   }
   if (slug === CHANNEL_SLUG) return res.json({ ok: true, channel: slug, primary: true });
+  if (extraChannels.some(channel => String(channel.slug).toLowerCase() === slug)) {
+    return res.json({ ok: true, channel: slug, alreadySubscribed: true, message: "Second channel chat alerts are already enabled." });
+  }
 
   const { KICK_CLIENT_ID, KICK_CLIENT_SECRET } = process.env;
   if (!KICK_CLIENT_ID || !KICK_CLIENT_SECRET || !process.env.APP_BASE_URL) {
