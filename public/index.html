@@ -73,7 +73,15 @@ hr{border-color:#f2d5e0!important}
 
 /* Highlighted messages sit directly below the stream players */
 .highlight-near-stream{margin-top:16px}.highlight-near-stream .panel{padding:17px}.highlight-near-stream .messages{height:300px}
-/* Theater layout: keep each Kick chat beside its player */
+
+/* Compact pull-down tab for adding a second streamer */
+.second-stream-drawer{margin:14px 0 0}
+.second-stream-drawer>summary{list-style:none;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid #f0cddd;border-radius:999px;background:#fff4f8;color:#a04f72;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px #d76d9915}
+.second-stream-drawer>summary::-webkit-details-marker{display:none}
+.second-stream-drawer[open]>summary{border-radius:13px 13px 0 0}
+.second-stream-drawer .second-stream-controls{margin-top:0;border-radius:0 14px 14px 14px;padding:12px 15px}
+.second-stream-drawer .hint{margin-top:8px}
+\n/* Theater layout: keep each Kick chat beside its player */
 .multi-stream-grid{grid-template-columns:minmax(0,1fr);gap:18px}
 .stream-card{display:grid;grid-template-columns:minmax(0,1.85fr) minmax(290px,1fr);grid-template-rows:auto 22px minmax(390px,1fr);column-gap:14px;row-gap:0;padding:15px}
 .stream-card-head{grid-column:1/-1;grid-row:1;margin-bottom:12px}
@@ -114,6 +122,15 @@ hr{border-color:#f2d5e0!important}
       <div class="stream-chat" id="secondStreamChat" hidden><iframe id="secondChatFrame" title="Second Kick live chat" loading="lazy"></iframe></div>
     </article>
   </div>
+  <details class="second-stream-drawer">
+    <summary>＋ Add another streamer</summary>
+    <div class="second-stream-controls">
+    <label for="secondStreamer">Second Kick streamer username</label>
+    <div class="addrow"><input id="secondStreamer" placeholder="Enter Kick username (e.g. xqc)" maxlength="25" autocomplete="off"><button class="btn" id="addSecondStreamer">Add</button></div>
+    <div class="hint">Your second streamer is saved in this browser, so it stays selected when you come back on this device.</div>
+  </div>
+  </details>
+
   <div class="highlight-near-stream"><section class="panel">
 <div class="toolbar"><div><h2 style="margin:0">LIVE CHAT MATCHES</h2><div class="sub">Messages containing your tracked keywords</div></div><div class="history-actions"><button class="btn secondary" id="showHistory">Highlight history</button><a class="btn secondary" href="/api/highlights.csv" style="display:inline-block">Download CSV</a><button class="btn secondary" id="clear">Clear view</button></div></div>
 <div class="stats"><div class="stat"><b id="count">0</b><span>MESSAGES RECEIVED</span></div><div class="stat"><b id="matches">0</b><span>KEYWORD MATCHES</span></div><div class="stat"><b id="tracked">0</b><span>TRACKED WORDS</span></div></div>
@@ -122,11 +139,7 @@ hr{border-color:#f2d5e0!important}
 </section>
   </div>
 
-  <div class="second-stream-controls">
-    <label for="secondStreamer">Second Kick streamer username</label>
-    <div class="addrow"><input id="secondStreamer" placeholder="Enter Kick username (e.g. xqc)" maxlength="25" autocomplete="off"><button class="btn" id="addSecondStreamer">Add</button></div>
-    <div class="hint">Your second streamer is saved in this browser, so it stays selected when you come back on this device.</div>
-  </div>
+  
   <div class="hint">Volume without fullscreen: hover over either video, click its speaker icon, and drag the volume slider to 100%. Each player has its own volume. Sound is enabled by default (muted=false). Chat embeds are provided by KickCX, a third-party chat embed service.</div>
 </section>
 
