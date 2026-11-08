@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kick Chat Radar</title>
+<title>Kick Chat Radar ♡</title>
 <style>
 :root{color-scheme:dark;--bg:#090d0b;--panel:#111a15;--panel2:#17221b;--line:#26352b;--green:#53fc18;--muted:#8fa196;--white:#edf5ef}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#17331d 0,transparent 42%),var(--bg);color:var(--white);font:15px/1.45 Inter,system-ui,Arial,sans-serif}
@@ -19,10 +19,47 @@ label{display:block;color:#a9b9ae;font-size:12px;margin:12px 0 6px}input{width:1
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}.stat{padding:12px;border-radius:12px;background:#0b130e;border:1px solid var(--line)}.stat b{font-size:21px;display:block}.stat span{font-size:11px;color:var(--muted)}
 .toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.messages{height:540px;overflow:auto;display:flex;flex-direction:column;gap:8px;padding-right:4px}.msg{background:#0c140f;border:1px solid #1d2a21;border-radius:11px;padding:11px 12px}.msg .who{color:#a8b9ad;font-size:12px;margin-bottom:3px}.msg p{margin:0;overflow-wrap:anywhere}.hit{border-color:#456d38;background:#142217;box-shadow:inset 3px 0 var(--green)}.empty{color:var(--muted);text-align:center;padding:70px 12px}.hint{font-size:12px;color:var(--muted);margin-top:12px}.notice{padding:11px 12px;background:#211d10;border:1px solid #51431e;color:#e9d69a;border-radius:10px;font-size:12px;margin-top:12px}.statusline{font-size:12px;color:var(--muted);margin-top:10px;overflow-wrap:anywhere}.history{margin-top:16px;border-top:1px solid var(--line);padding-top:16px}.history-list{display:flex;flex-direction:column;gap:8px;max-height:360px;overflow:auto}.history-item{padding:11px;background:#0b130e;border:1px solid var(--line);border-radius:10px}.history-actions{display:flex;gap:8px;flex-wrap:wrap}
 @media(max-width:800px){.stream-layout{grid-template-columns:1fr}.stream-chat{height:480px}.stream-chat iframe{height:100%}.grid{grid-template-columns:1fr}.messages{height:430px}.top{align-items:flex-start;flex-direction:column}.stats{grid-template-columns:repeat(3,1fr)}}
+
+/* Blush-pink streamer makeover */
+:root{color-scheme:light;--bg:#fff5f8;--panel:#ffffff;--panel2:#fff0f5;--line:#f2d5e0;--green:#e879a7;--muted:#a47d8d;--white:#563847}
+body{background:radial-gradient(ellipse at 12% 0%,#ffe0ec 0,transparent 42%),radial-gradient(ellipse at 95% 18%,#fce8f2 0,transparent 34%),var(--bg);color:var(--white);font-family:"Trebuchet MS",Inter,system-ui,Arial,sans-serif}
+.wrap{max-width:1320px;padding-top:32px}
+.brand{gap:15px}.logo{width:50px;height:50px;border-radius:17px;background:linear-gradient(145deg,#f8b8d0,#df6f9f);color:#fff;box-shadow:0 8px 22px #e879a744;font-size:24px}
+h1{font-size:24px;letter-spacing:1px;color:#75445a}.sub{color:var(--muted)}
+.pill{border:1px solid var(--line);background:#fff;border-radius:99px;color:#986b80;box-shadow:0 4px 14px #a84e7510}
+.dot.on{background:#e879a7;box-shadow:0 0 10px #e879a7}
+.panel{background:linear-gradient(160deg,#fff 0%,#fffafd 100%);border:1px solid #f2d5e0;border-radius:22px;padding:21px;box-shadow:0 12px 35px #a84e7510}
+.panel h2{color:#9b5875;letter-spacing:1.1px;font-size:13px}
+.stream-player,.stream-chat{background:#fff0f5;border:1px solid #f0cddd;border-radius:17px;box-shadow:0 7px 20px #a84e7510}
+.stream-chat{background:#fff}
+.channel{background:linear-gradient(120deg,#fff0f5,#fff8fb);border:1px solid #f5dce6;border-radius:16px}
+.avatar{background:linear-gradient(145deg,#f8c6da,#e88db1);color:#fff;box-shadow:0 5px 14px #e879a733}
+a{color:#d45f91}
+.btn{background:linear-gradient(135deg,#f4a9c6,#df6f9f);color:#fff;border-radius:12px;box-shadow:0 5px 13px #d76d991f;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 17px #d76d9930}
+.btn.secondary{background:#fff4f8;color:#a04f72;border:1px solid #f0cddd;box-shadow:none}
+input{background:#fffafd;border:1px solid #efd5df;color:#694457;border-radius:11px}
+input::placeholder{color:#c4a4b2}input:focus{border-color:#e879a7;box-shadow:0 0 0 3px #e879a71b}
+label{color:#986b80}
+.keyword{background:#fff8fb;border:1px solid #f2dce5;border-radius:12px}
+.remove{color:#bb7895}
+.stat{background:linear-gradient(145deg,#fff7fa,#fff);border:1px solid #f2dce5;border-radius:15px}
+.stat b{color:#d76596}.stat span{color:#a47d8d;letter-spacing:.5px}
+.msg{background:#fffafd;border:1px solid #f3e0e8;border-radius:13px;color:#67485a}
+.msg .who{color:#a06b84}.hit{border-color:#e879a7;background:#fff0f6;box-shadow:inset 3px 0 #e879a7,0 4px 14px #e879a71a}
+.empty{color:#a47d8d}
+.notice{background:#fff4e8;border:1px solid #f5dfc6;color:#9b704b;border-radius:13px}
+.hint,.statusline{color:#a47d8d}
+.history{border-color:#f2d5e0}.history-item{background:#fff8fb;border:1px solid #f2dce5;border-radius:13px;color:#67485a}
+hr{border-color:#f2d5e0!important}
+.stream-panel{position:relative;overflow:hidden}
+.stream-panel:before{content:"✦  ♡  ✦";position:absolute;right:22px;top:15px;color:#e7a0bc;letter-spacing:8px;font-size:12px;pointer-events:none}
+@media(max-width:800px){.wrap{padding:18px 12px 40px}.panel{padding:16px}.history-actions{width:100%}.history-actions>*{flex:1;text-align:center}}
+
 </style>
 </head>
 <body><main class="wrap">
-<header class="top"><div class="brand"><div class="logo">K</div><div><h1>KICK CHAT RADAR</h1><div class="sub">Keyword monitoring dashboard</div></div></div><div class="pill"><span id="dot" class="dot"></span><span id="connection">Waiting for chat events</span></div></header>
+<header class="top"><div class="brand"><div class="logo">K</div><div><h1>KICK CHAT RADAR</h1><div class="sub">your pretty little live-stream control room ♡</div></div></div><div class="pill"><span id="dot" class="dot"></span><span id="connection">Waiting for chat events</span></div></header>
 
 <section class="panel stream-panel">
   <div class="toolbar"><div><h2 style="margin:0">WATCH LIVE</h2><div class="sub">Watch deenTheGreat directly on Kick Chat Radar</div></div><a href="https://kick.com/deenthegreat" target="_blank" rel="noreferrer">Open on Kick ↗</a></div>
@@ -40,7 +77,7 @@ label{display:block;color:#a9b9ae;font-size:12px;margin:12px 0 6px}input{width:1
 <div class="channel"><div class="avatar">D</div><div style="flex:1"><b>deenTheGreat</b><div class="sub"><a href="https://kick.com/deenthegreat" target="_blank" rel="noreferrer">kick.com/deenthegreat ↗</a></div></div></div>
 <h2>KEYWORD ALERTS</h2>
 <label for="word">Keyword or phrase</label><div class="addrow"><input id="word" placeholder="e.g. giveaway" maxlength="60"><button class="btn" id="add">+</button></div>
-<label>Highlight color</label><div class="colorrow"><input id="color" type="color" value="#53fc18"><span class="sub">Choose the color used in chat highlights</span></div>
+<label>Highlight color</label><div class="colorrow"><input id="color" type="color" value="#e879a7"><span class="sub">Choose the color used in chat highlights</span></div>
 <div id="keywords" class="keywords"></div>
 <div class="hint">Matches ignore capitalization. Each keyword can have its own color.</div>
 <hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
