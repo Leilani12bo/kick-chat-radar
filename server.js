@@ -11,8 +11,24 @@ const CHANNEL_SLUG = (process.env.CHANNEL_SLUG || "deenthegreat").toLowerCase();
 const clients = new Set();
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, "data");
 const HIGHLIGHTS_FILE = path.join(DATA_DIR, "highlights.json");
+const EXTRA_CHANNELS_FILE = path.join(DATA_DIR, "extra-channels.json");
 let savedHighlights = [];
+let extraChannels = [];
 let writeQueue = Promise.resolve();
+async function loadExtraChannels() {
+  try {
+    const saved = JSON.parse(await fs.readFile(EXTRA_CHANNELS_FILE, "utf8"));
+    extraChannels = Array.isArray(saved) ? saved.filter(item => item && item.slug && Number.isFinite(Number(item.broadcasterUserId))) : [];
+  } catch (error) {
+    if (error.code !== "ENOENT") console.error("Could not load extra channels:", error);
+  }
+}
+async function persistExtraChannels() {
+  await fs.mkdir(DATA_DIR, { recursive: true });
+  const tempFile = EXTRA_CHANNELS_FILE + ".tmp";
+  await fs.writeFile(tempFile, JSON.stringify(extraChannels, null, 2), "utf8");
+  await fs.rename(tempFile, EXTRA_CHANNELS_FILE);
+}
 async function loadHighlights() {
   try { savedHighlights = JSON.parse(await fs.readFile(HIGHLIGHTS_FILE, "utf8")); }
   catch (error) { if (error.code !== "ENOENT") console.error("Could not load highlight history:", error); }
@@ -29,6 +45,7 @@ function queuePersist() {
   return writeQueue;
 }
 await loadHighlights();
+await loadExtraChannels();
 let latestMessages = [];
 let lastEventAt = null;
 let webhookCount = 0;
@@ -70,7 +87,7 @@ app.post("/webhooks/kick", express.raw({ type: "application/json", limit: "1mb" 
       };
 
       // Guard against accidentally displaying events for a different channel.
-      if ((message.channel || "").toLowerCase() === CHANNEL_SLUG) {
+      if ([CHANNEL_SLUG, ...extraChannels.map(channel => String(channel.slug).toLowerCase())].includes((message.channel || "").toLowerCase())) {
         latestMessages.unshift(message);
         latestMessages = latestMessages.slice(0, 100);
         lastEventAt = new Date().toISOString();
@@ -95,6 +112,7 @@ app.get("/health", (_req, res) => res.json({ ok: true }));
 app.get("/api/status", (_req, res) => {
   res.json({
     channel: CHANNEL_SLUG,
+    monitoredChannels: [CHANNEL_SLUG, ...extraChannels.map(channel => channel.slug)],
     webhookUrl: process.env.APP_BASE_URL ? `${process.env.APP_BASE_URL.replace(/\/$/, "")}/webhooks/kick` : null,
     webhookCount,
     lastEventAt,
@@ -191,6 +209,71 @@ app.post("/api/subscribe", async (_req, res) => {
   } catch (error) {
     console.error("Subscribe error:", error);
     res.status(500).json({ error: "Could not subscribe to Kick events" });
+  }
+});
+
+
+app.post("/api/subscribe-channel", async (req, res) => {
+  const slug = String(req.body?.username || "").trim().replace(/^@/, "").toLowerCase();
+  if (!/^[a-z0-9_]{1,25}$/.test(slug)) {
+    return res.status(400).json({ error: "Enter a valid Kick username." });
+  }
+  if (slug === CHANNEL_SLUG) return res.json({ ok: true, channel: slug, primary: true });
+
+  const { KICK_CLIENT_ID, KICK_CLIENT_SECRET } = process.env;
+  if (!KICK_CLIENT_ID || !KICK_CLIENT_SECRET || !process.env.APP_BASE_URL) {
+    return res.status(400).json({ error: "Add your Kick app credentials and APP_BASE_URL in Render before enabling alerts for a second channel." });
+  }
+
+  try {
+    const tokenResponse = await fetch("https://id.kick.com/oauth/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        grant_type: "client_credentials",
+        client_id: KICK_CLIENT_ID,
+        client_secret: KICK_CLIENT_SECRET
+      })
+    });
+    const tokenData = await tokenResponse.json();
+    if (!tokenResponse.ok || !tokenData.access_token) {
+      return res.status(502).json({ error: "Kick token request failed.", details: tokenData });
+    }
+
+    const channelResponse = await fetch("https://api.kick.com/public/v1/channels?slug=" + encodeURIComponent(slug), {
+      headers: { Authorization: `Bearer ${tokenData.access_token}` }
+    });
+    const channelData = await channelResponse.json();
+    const channelList = Array.isArray(channelData.data) ? channelData.data : (channelData.data ? [channelData.data] : []);
+    const channel = channelList.find(item => String(item.slug || "").toLowerCase() === slug) || channelList[0];
+    const broadcasterUserId = Number(channel?.broadcaster_user_id);
+    if (!channelResponse.ok || !Number.isFinite(broadcasterUserId) || broadcasterUserId <= 0) {
+      return res.status(404).json({ error: "I couldn't find that Kick channel. Double-check the username and try again." });
+    }
+
+    const subscribeResponse = await fetch("https://api.kick.com/public/v1/events/subscriptions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${tokenData.access_token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        broadcaster_user_id: broadcasterUserId,
+        method: "webhook",
+        events: [{ name: "chat.message.sent", version: 1 }]
+      })
+    });
+    const subscriptionData = await subscribeResponse.json();
+    if (!subscribeResponse.ok) {
+      return res.status(502).json({ error: "Kick couldn't create the second chat subscription.", details: subscriptionData });
+    }
+
+    extraChannels = [{ slug, broadcasterUserId }];
+    await persistExtraChannels();
+    res.json({ ok: true, channel: slug, message: "Second channel chat alerts are enabled." });
+  } catch (error) {
+    console.error("Second channel subscription error:", error);
+    res.status(500).json({ error: "Could not enable second channel chat alerts." });
   }
 });
 
