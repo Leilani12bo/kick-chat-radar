@@ -85,13 +85,13 @@ hr{border-color:#f2d5e0!important}
 .second-stream-drawer .hint{margin-top:8px}
 \n/* Theater layout: keep each Kick chat beside its player */
 .multi-stream-grid{grid-template-columns:minmax(0,1fr);gap:18px}
-.stream-card{display:grid;grid-template-columns:minmax(0,1.85fr) minmax(290px,1fr);grid-template-rows:auto 22px minmax(390px,1fr);column-gap:14px;row-gap:0;padding:15px}
+.stream-card{display:grid;grid-template-columns:minmax(0,2.5fr) minmax(260px,1fr);grid-template-rows:auto 22px minmax(460px,1fr);column-gap:14px;row-gap:0;padding:15px}
 .stream-card-head{grid-column:1/-1;grid-row:1;margin-bottom:12px}
-.stream-card>.stream-player{grid-column:1;grid-row:2/4;aspect-ratio:auto;height:100%;min-height:410px}
+.stream-card>.stream-player{grid-column:1;grid-row:2/4;aspect-ratio:auto;height:100%;min-height:480px}
 .stream-card>.chat-label{grid-column:2;grid-row:2;margin:0 0 6px;align-self:start}
-.stream-card>.stream-chat{grid-column:2;grid-row:3;height:100%;min-height:390px}
+.stream-card>.stream-chat{grid-column:2;grid-row:3;height:100%;min-height:460px}
 #secondStreamCard:not(.has-stream) .second-stream-empty{grid-column:1/-1}
-.stream-card.has-stream .stream-player{min-height:410px}
+.stream-card.has-stream .stream-player{min-height:480px}
 @media(max-width:850px){
   .highlight-near-stream .messages{height:260px}
   .stream-card{display:flex;flex-direction:column;gap:0}
