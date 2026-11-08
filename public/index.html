@@ -102,6 +102,24 @@ hr{border-color:#f2d5e0!important}
   .multi-stream-grid{grid-template-columns:1fr}
 }
 
+
+/* Safari fullscreen: let the stream lounge use the larger viewport */
+@media (min-width:851px){
+  .wrap{max-width:none;width:100%;padding-left:clamp(20px,2.5vw,48px);padding-right:clamp(20px,2.5vw,48px)}
+  .stream-card{
+    grid-template-columns:minmax(0,3fr) minmax(300px,1fr);
+    grid-template-rows:auto 22px minmax(0,1fr);
+    min-height:max(720px,82vh);
+  }
+  .stream-card>.stream-player{
+    height:100%;min-height:0;aspect-ratio:auto;
+  }
+  .stream-card>.stream-chat{
+    height:100%;min-height:0;
+  }
+  .stream-card>.stream-chat iframe{min-height:0}
+}
+
 </style>
 </head>
 <body><main class="wrap">
