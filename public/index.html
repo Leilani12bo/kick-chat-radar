@@ -71,6 +71,8 @@ hr{border-color:#f2d5e0!important}
 @media(max-width:850px){.multi-stream-grid{grid-template-columns:1fr}.stream-chat{height:360px}}
 
 
+/* Highlighted messages sit directly below the stream players */
+.highlight-near-stream{margin-top:16px}.highlight-near-stream .panel{padding:17px}.highlight-near-stream .messages{height:300px}
 /* Theater layout: keep each Kick chat beside its player */
 .multi-stream-grid{grid-template-columns:minmax(0,1fr);gap:18px}
 .stream-card{display:grid;grid-template-columns:minmax(0,1.85fr) minmax(290px,1fr);grid-template-rows:auto 22px minmax(390px,1fr);column-gap:14px;row-gap:0;padding:15px}
@@ -81,6 +83,7 @@ hr{border-color:#f2d5e0!important}
 #secondStreamCard:not(.has-stream) .second-stream-empty{grid-column:1/-1}
 .stream-card.has-stream .stream-player{min-height:410px}
 @media(max-width:850px){
+  .highlight-near-stream .messages{height:260px}
   .stream-card{display:flex;flex-direction:column;gap:0}
   .stream-card-head{margin-bottom:11px}
   .stream-card>.stream-player{height:auto;min-height:0;aspect-ratio:16/9}
@@ -111,6 +114,14 @@ hr{border-color:#f2d5e0!important}
       <div class="stream-chat" id="secondStreamChat" hidden><iframe id="secondChatFrame" title="Second Kick live chat" loading="lazy"></iframe></div>
     </article>
   </div>
+  <div class="highlight-near-stream"><section class="panel">
+<div class="toolbar"><div><h2 style="margin:0">LIVE CHAT MATCHES</h2><div class="sub">Messages containing your tracked keywords</div></div><div class="history-actions"><button class="btn secondary" id="showHistory">Highlight history</button><a class="btn secondary" href="/api/highlights.csv" style="display:inline-block">Download CSV</a><button class="btn secondary" id="clear">Clear view</button></div></div>
+<div class="stats"><div class="stat"><b id="count">0</b><span>MESSAGES RECEIVED</span></div><div class="stat"><b id="matches">0</b><span>KEYWORD MATCHES</span></div><div class="stat"><b id="tracked">0</b><span>TRACKED WORDS</span></div></div>
+<div id="messages" class="messages"><div class="empty">Waiting for chat messages…<br><span class="sub">When Kick sends a chat event, it will appear here.</span></div></div>
+<div class="history" id="historyPanel" hidden><div class="toolbar"><div><h2 style="margin:0">SAVED HIGHLIGHTS</h2><div class="sub" id="historyCount">Loading saved messages…</div></div><button class="btn secondary" id="hideHistory">Close</button></div><div class="history-list" id="historyList"></div></div>
+</section>
+  </div>
+
   <div class="second-stream-controls">
     <label for="secondStreamer">Second Kick streamer username</label>
     <div class="addrow"><input id="secondStreamer" placeholder="Enter Kick username (e.g. xqc)" maxlength="25" autocomplete="off"><button class="btn" id="addSecondStreamer">Add</button></div>
@@ -138,12 +149,7 @@ hr{border-color:#f2d5e0!important}
 <div id="setupStatus" class="statusline"></div>
 </section>
 </aside>
-<section class="panel">
-<div class="toolbar"><div><h2 style="margin:0">LIVE CHAT MATCHES</h2><div class="sub">Messages containing your tracked keywords</div></div><div class="history-actions"><button class="btn secondary" id="showHistory">Highlight history</button><a class="btn secondary" href="/api/highlights.csv" style="display:inline-block">Download CSV</a><button class="btn secondary" id="clear">Clear view</button></div></div>
-<div class="stats"><div class="stat"><b id="count">0</b><span>MESSAGES RECEIVED</span></div><div class="stat"><b id="matches">0</b><span>KEYWORD MATCHES</span></div><div class="stat"><b id="tracked">0</b><span>TRACKED WORDS</span></div></div>
-<div id="messages" class="messages"><div class="empty">Waiting for chat messages…<br><span class="sub">When Kick sends a chat event, it will appear here.</span></div></div>
-<div class="history" id="historyPanel" hidden><div class="toolbar"><div><h2 style="margin:0">SAVED HIGHLIGHTS</h2><div class="sub" id="historyCount">Loading saved messages…</div></div><button class="btn secondary" id="hideHistory">Close</button></div><div class="history-list" id="historyList"></div></div>
-</section>
+
 </div>
 </main>
 <script>
