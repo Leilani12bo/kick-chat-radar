@@ -128,11 +128,37 @@ hr{border-color:#f2d5e0!important}
   .stream-card{height:calc(100vh - 130px);min-height:500px}
 }
 
+
+/* Saved theme picker */
+.theme-tab{border:1px solid #f0cddd;background:#fff4f8;color:#a04f72;border-radius:999px;padding:9px 14px;font-weight:800;cursor:pointer;white-space:nowrap}
+.theme-panel{display:none;position:absolute;right:20px;top:82px;z-index:50;width:min(330px,calc(100vw - 32px));padding:17px;background:#fff;border:1px solid #f2d5e0;border-radius:18px;box-shadow:0 18px 50px #5b304422}
+.theme-panel.open{display:block}.theme-panel h2{margin:0 0 5px;color:#75445a}.theme-panel p{margin:0 0 13px;color:#a47d8d;font-size:12px}
+.theme-options{display:grid;grid-template-columns:1fr 1fr;gap:9px}.theme-choice{display:flex;align-items:center;gap:9px;padding:10px;border:1px solid #f2d5e0;border-radius:12px;background:#fffafd;color:#67485a;font-weight:700;cursor:pointer}
+.theme-choice[aria-pressed="true"]{outline:2px solid #e879a7;border-color:transparent}.theme-swatch{width:22px;height:22px;border-radius:50%;border:2px solid white;box-shadow:0 0 0 1px #d9bdca;flex:none}.theme-panel .theme-close{margin-top:12px;width:100%}
+body[data-theme="midnight"]{color-scheme:dark;--bg:#090d0b;--panel:#111a15;--panel2:#17221b;--line:#26352b;--green:#53fc18;--muted:#8fa196;--white:#edf5ef;background:radial-gradient(ellipse at 15% 0%,#17331d 0,transparent 42%),var(--bg);color:var(--white);font-family:Inter,system-ui,Arial,sans-serif}
+body[data-theme="midnight"] h1,body[data-theme="midnight"] .panel h2{color:#edf5ef}body[data-theme="midnight"] .logo{background:#53fc18;color:#071006}
+body[data-theme="midnight"] .pill,body[data-theme="midnight"] .panel,body[data-theme="midnight"] .stream-card,body[data-theme="midnight"] .channel,body[data-theme="midnight"] .keyword,body[data-theme="midnight"] .stat,body[data-theme="midnight"] .msg,body[data-theme="midnight"] .history-item,body[data-theme="midnight"] .second-stream-controls{background:#111a15!important;border-color:#26352b!important;color:#edf5ef!important}
+body[data-theme="midnight"] .stream-player,body[data-theme="midnight"] .stream-chat,body[data-theme="midnight"] .second-stream-empty{background:#050805!important;border-color:#26352b!important}
+body[data-theme="midnight"] input{background:#0a100c!important;border-color:#26352b!important;color:#edf5ef!important}
+body[data-theme="midnight"] label,body[data-theme="midnight"] .sub,body[data-theme="midnight"] .hint,body[data-theme="midnight"] .statusline,body[data-theme="midnight"] .msg .who{color:#8fa196!important}
+body[data-theme="midnight"] a{color:#53fc18}body[data-theme="midnight"] .btn{background:#53fc18;color:#071006}body[data-theme="midnight"] .btn.secondary,body[data-theme="midnight"] .theme-tab{background:#17221b;color:#edf5ef;border-color:#26352b}body[data-theme="midnight"] .stat b{color:#53fc18}body[data-theme="midnight"] .hit{background:#142217!important;border-color:#456d38!important;box-shadow:inset 3px 0 #53fc18!important}
+body[data-theme="lavender"]{--bg:#f7f3ff;--panel:#fff;--panel2:#f1eaff;--line:#dfd2f5;--green:#a58ae8;--muted:#8f80aa;--white:#493b62;background:radial-gradient(ellipse at 12% 0%,#e9ddff 0,transparent 45%),var(--bg);color:var(--white)}
+body[data-theme="lavender"] h1,body[data-theme="lavender"] .panel h2{color:#68518f}body[data-theme="lavender"] .logo{background:linear-gradient(145deg,#c9b8ff,#9276dc);color:white}
+body[data-theme="lavender"] .panel,body[data-theme="lavender"] .stream-card,body[data-theme="lavender"] .channel,body[data-theme="lavender"] .keyword,body[data-theme="lavender"] .stat,body[data-theme="lavender"] .msg,body[data-theme="lavender"] .history-item,body[data-theme="lavender"] .second-stream-controls{background:#fff!important;border-color:#dfd2f5!important;color:#493b62!important}
+body[data-theme="lavender"] .stream-player,body[data-theme="lavender"] .stream-chat,body[data-theme="lavender"] .second-stream-empty{background:#f1eaff!important;border-color:#dfd2f5!important}body[data-theme="lavender"] input{background:#fcfaff!important;border-color:#dfd2f5!important;color:#493b62!important}
+body[data-theme="lavender"] label,body[data-theme="lavender"] .sub,body[data-theme="lavender"] .hint,body[data-theme="lavender"] .statusline{color:#8f80aa!important}body[data-theme="lavender"] a{color:#8064c8}body[data-theme="lavender"] .btn{background:linear-gradient(135deg,#bca9f4,#9276dc);color:white}body[data-theme="lavender"] .btn.secondary,body[data-theme="lavender"] .theme-tab{background:#f5f0ff;color:#7157ad;border-color:#dfd2f5}body[data-theme="lavender"] .stat b{color:#9276dc}body[data-theme="lavender"] .hit{background:#f1eaff!important;border-color:#a58ae8!important;box-shadow:inset 3px 0 #a58ae8!important}
+body[data-theme="ocean"]{--bg:#effaff;--panel:#fff;--panel2:#e5f5fc;--line:#c9e5f1;--green:#43a9cf;--muted:#6f96a8;--white:#294958;background:radial-gradient(ellipse at 12% 0%,#d7f1fc 0,transparent 45%),var(--bg);color:var(--white)}
+body[data-theme="ocean"] h1,body[data-theme="ocean"] .panel h2{color:#347b99}body[data-theme="ocean"] .logo{background:linear-gradient(145deg,#83d2ed,#399fc6);color:white}
+body[data-theme="ocean"] .panel,body[data-theme="ocean"] .stream-card,body[data-theme="ocean"] .channel,body[data-theme="ocean"] .keyword,body[data-theme="ocean"] .stat,body[data-theme="ocean"] .msg,body[data-theme="ocean"] .history-item,body[data-theme="ocean"] .second-stream-controls{background:#fff!important;border-color:#c9e5f1!important;color:#294958!important}
+body[data-theme="ocean"] .stream-player,body[data-theme="ocean"] .stream-chat,body[data-theme="ocean"] .second-stream-empty{background:#e5f5fc!important;border-color:#c9e5f1!important}body[data-theme="ocean"] input{background:#f8fdff!important;border-color:#c9e5f1!important;color:#294958!important}
+body[data-theme="ocean"] label,body[data-theme="ocean"] .sub,body[data-theme="ocean"] .hint,body[data-theme="ocean"] .statusline{color:#6f96a8!important}body[data-theme="ocean"] a{color:#268bb5}body[data-theme="ocean"] .btn{background:linear-gradient(135deg,#83d2ed,#399fc6);color:white}body[data-theme="ocean"] .btn.secondary,body[data-theme="ocean"] .theme-tab{background:#eaf8fd;color:#347b99;border-color:#c9e5f1}body[data-theme="ocean"] .stat b{color:#399fc6}body[data-theme="ocean"] .hit{background:#e5f5fc!important;border-color:#43a9cf!important;box-shadow:inset 3px 0 #43a9cf!important}
+@media(max-width:600px){.theme-panel{top:112px;right:12px}}
+
 </style>
 </head>
 <body><main class="wrap">
-<header class="top"><div class="brand"><div class="logo">K</div><div><h1>KICK CHAT RADAR</h1><div class="sub">your pretty little live-stream control room ♡</div></div></div><div class="pill"><span id="dot" class="dot"></span><span id="connection">Waiting for chat events</span></div></header>
-
+<header class="top"><div class="brand"><div class="logo">K</div><div><h1>KICK CHAT RADAR</h1><div class="sub">your pretty little live-stream control room ♡</div></div></div><button class="theme-tab" id="themeTab" type="button" aria-expanded="false">🎨 Theme</button><div class="pill"><span id="dot" class="dot"></span><span id="connection">Waiting for chat events</span></div></header>
+<section class="theme-panel" id="themePanel" aria-label="Website themes"><h2>Choose your vibe ♡</h2><p>Change the look of your whole dashboard. Your choice is saved on this device.</p><div class="theme-options"><button class="theme-choice" data-theme-choice="blush" aria-pressed="true"><span class="theme-swatch" style="background:linear-gradient(135deg,#f8b8d0,#df6f9f)"></span>Blush Pink</button><button class="theme-choice" data-theme-choice="lavender" aria-pressed="false"><span class="theme-swatch" style="background:linear-gradient(135deg,#c9b8ff,#9276dc)"></span>Lavender</button><button class="theme-choice" data-theme-choice="midnight" aria-pressed="false"><span class="theme-swatch" style="background:linear-gradient(135deg,#17221b,#53fc18)"></span>Midnight Dark</button><button class="theme-choice" data-theme-choice="ocean" aria-pressed="false"><span class="theme-swatch" style="background:linear-gradient(135deg,#83d2ed,#399fc6)"></span>Ocean Blue</button></div><button class="btn secondary theme-close" id="closeThemePanel" type="button">Done</button></section>
 <section class="panel stream-panel">
   <div class="toolbar"><div><h2 style="margin:0">MULTI-STREAM LOUNGE ♡</h2><div class="sub">Watch two Kick streamers and follow both chats in one place</div></div><a href="https://kick.com/deenthegreat" target="_blank" rel="noreferrer">Open Kick ↗</a></div>
   <div class="multi-stream-grid">
@@ -265,4 +291,19 @@ $("clear").onclick=()=>{$("messages").innerHTML='<div class="empty">View cleared
 $("subscribe").onclick=async()=>{const b=$("subscribe");b.disabled=true;b.textContent="Requesting subscription…";$("setupStatus").textContent="";try{const r=await fetch("/api/subscribe",{method:"POST"}),d=await r.json();if(!r.ok)throw Error(d.error+(d.details?" — "+JSON.stringify(d.details):""));$("setupStatus").textContent="Kick subscription request sent. Webhook: "+d.webhookUrl;b.textContent="Subscription requested"}catch(e){$("setupStatus").textContent=e.message;b.textContent="Try setup again"}finally{b.disabled=false}};
 async function status(){try{const r=await fetch("/api/status"),d=await r.json();if(d.webhookCount>0){$("setupMsg").textContent=`Webhook received ${d.webhookCount} chat event(s). Last event: ${d.lastEventAt}`}else if(!d.configured){$("setupMsg").textContent="Hosting setup required: add Kick app credentials and channel user ID in your host's environment variables."}}catch{}}
 save();connect();status();loadHistory();setInterval(status,10000);
+
+// Theme switcher remembers the selected theme on this device.
+const themeNames=["blush","lavender","midnight","ocean"];
+function applyTheme(name){
+ const theme=themeNames.includes(name)?name:"blush";
+ document.body.dataset.theme=theme;
+ localStorage.setItem("kick-radar-theme",theme);
+ document.querySelectorAll("[data-theme-choice]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.themeChoice===theme)));
+}
+const themePanel=$("themePanel"),themeTab=$("themeTab");
+themeTab.addEventListener("click",()=>{const open=themePanel.classList.toggle("open");themeTab.setAttribute("aria-expanded",String(open));});
+$("closeThemePanel").addEventListener("click",()=>{themePanel.classList.remove("open");themeTab.setAttribute("aria-expanded","false");});
+themePanel.addEventListener("click",event=>{const choice=event.target.closest("[data-theme-choice]");if(choice)applyTheme(choice.dataset.themeChoice);});
+document.addEventListener("click",event=>{if(!themePanel.contains(event.target)&&!themeTab.contains(event.target)){themePanel.classList.remove("open");themeTab.setAttribute("aria-expanded","false");}});
+applyTheme(localStorage.getItem("kick-radar-theme")||"blush");
 </script></body></html>
