@@ -175,11 +175,18 @@ body{font-weight:600}
 body button,body input,body label,body .sub,body .hint,body .statusline,body .msg,body .history-item{font-weight:600}
 body .panel h2,body .stream-card-head,body .chat-label{font-weight:800}
 
+
+/* Make every dashboard text label bold and keep adjustable text sizing */
+body *:not(svg):not(path):not(iframe){font-weight:700!important}
+body{--dashboard-font-adjust:0px}
+body .text-size-target{font-size:calc(var(--original-font-size) + var(--dashboard-font-adjust))!important}
+#textSizeControl{accent-color:#df6f9f;cursor:pointer;padding:0}
+
 </style>
 </head>
 <body><main class="wrap">
 <header class="top"><div class="brand"><div class="logo">K</div><div><h1>KICK CHAT RADAR</h1><div class="sub">your pretty little live-stream control room ♡</div></div></div><button class="theme-tab" id="themeTab" type="button" aria-expanded="false">🎨 Theme</button><div class="pill"><span id="dot" class="dot"></span><span id="connection">Waiting for chat events</span></div></header>
-<section class="theme-panel" id="themePanel" aria-label="Website themes"><h2>Choose your vibe ♡</h2><p>Change the look of your whole dashboard. Your choice is saved on this device.</p><div class="theme-options"><button class="theme-choice" data-theme-choice="blush" aria-pressed="true"><span class="theme-swatch" style="background:linear-gradient(135deg,#f8b8d0,#df6f9f)"></span>Blush Pink</button><button class="theme-choice" data-theme-choice="lavender" aria-pressed="false"><span class="theme-swatch" style="background:linear-gradient(135deg,#c9b8ff,#9276dc)"></span>Lavender</button><button class="theme-choice" data-theme-choice="midnight" aria-pressed="false"><span class="theme-swatch" style="background:linear-gradient(135deg,#17221b,#53fc18)"></span>Midnight Dark</button><button class="theme-choice" data-theme-choice="ocean" aria-pressed="false"><span class="theme-swatch" style="background:linear-gradient(135deg,#83d2ed,#399fc6)"></span>Ocean Blue</button><button class="theme-choice" data-theme-choice="white" aria-pressed="false"><span class="theme-swatch" style="background:linear-gradient(135deg,#ffffff,#e8edf2)"></span>Clean White</button></div><label for="customThemeColor">Your own accent color</label><div class="colorrow"><input id="customThemeColor" type="color" value="#e879a7" aria-label="Choose custom accent color"><span class="sub">Pick any color for buttons and highlights</span></div><button class="btn secondary theme-close" id="closeThemePanel" type="button">Done</button></section>
+<section class="theme-panel" id="themePanel" aria-label="Website themes"><h2>Choose your vibe ♡</h2><p>Change the look of your whole dashboard. Your choice is saved on this device.</p><div class="theme-options"><button class="theme-choice" data-theme-choice="blush" aria-pressed="true"><span class="theme-swatch" style="background:linear-gradient(135deg,#f8b8d0,#df6f9f)"></span>Blush Pink</button><button class="theme-choice" data-theme-choice="lavender" aria-pressed="false"><span class="theme-swatch" style="background:linear-gradient(135deg,#c9b8ff,#9276dc)"></span>Lavender</button><button class="theme-choice" data-theme-choice="midnight" aria-pressed="false"><span class="theme-swatch" style="background:linear-gradient(135deg,#17221b,#53fc18)"></span>Midnight Dark</button><button class="theme-choice" data-theme-choice="ocean" aria-pressed="false"><span class="theme-swatch" style="background:linear-gradient(135deg,#83d2ed,#399fc6)"></span>Ocean Blue</button><button class="theme-choice" data-theme-choice="white" aria-pressed="false"><span class="theme-swatch" style="background:linear-gradient(135deg,#ffffff,#e8edf2)"></span>Clean White</button></div><label for="customThemeColor">Your own accent color</label><div class="colorrow"><input id="customThemeColor" type="color" value="#e879a7" aria-label="Choose custom accent color"><span class="sub">Pick any color for buttons and highlights</span></div><label for="textSizeControl">Dashboard text size: <strong id="textSizeValue">16 px</strong></label><input id="textSizeControl" type="range" min="14" max="24" step="1" value="16" aria-label="Adjust dashboard text size"><button class="btn secondary theme-close" id="closeThemePanel" type="button">Done</button></section>
 <section class="panel stream-panel">
   <div class="toolbar"><div><h2 style="margin:0">MULTI-STREAM LOUNGE ♡</h2><div class="sub">Watch two Kick streamers and follow both chats in one place</div></div><a href="https://kick.com/deenthegreat" target="_blank" rel="noreferrer">Open Kick ↗</a></div>
   <div class="multi-stream-grid">
@@ -337,4 +344,24 @@ $("closeThemePanel").addEventListener("click",()=>{themePanel.classList.remove("
 themePanel.addEventListener("click",event=>{const choice=event.target.closest("[data-theme-choice]");if(choice)applyTheme(choice.dataset.themeChoice);});
 document.addEventListener("click",event=>{if(!themePanel.contains(event.target)&&!themeTab.contains(event.target)){themePanel.classList.remove("open");themeTab.setAttribute("aria-expanded","false");}});
 applyTheme(localStorage.getItem("kick-radar-theme")||"blush");
+
+// Bold all text in the dashboard and let the user adjust its size.
+const textSizeControl=$("textSizeControl"),textSizeValue=$("textSizeValue");
+function setDashboardTextSize(value){
+ const size=Math.max(14,Math.min(24,Number(value)||16));
+ const adjustment=size-16;
+ document.body.style.setProperty("--dashboard-font-adjust",adjustment+"px");
+ textSizeValue.textContent=size+" px";
+ localStorage.setItem("kick-radar-text-size",String(size));
+}
+document.querySelectorAll("body *:not(svg):not(path):not(iframe)").forEach(el=>{
+ if(el.children.length===0 && el.textContent.trim()){
+  const computed=parseFloat(getComputedStyle(el).fontSize)||16;
+  el.style.setProperty("--original-font-size",computed+"px");
+  el.classList.add("text-size-target");
+ }
+});
+textSizeControl.value=localStorage.getItem("kick-radar-text-size")||"16";
+textSizeControl.addEventListener("input",()=>setDashboardTextSize(textSizeControl.value));
+setDashboardTextSize(textSizeControl.value);
 </script></body></html>
