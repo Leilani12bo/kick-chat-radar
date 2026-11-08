@@ -11,18 +11,28 @@
 .brand{display:flex;align-items:center;gap:13px}.logo{width:44px;height:44px;border-radius:13px;background:var(--green);color:#071006;display:grid;place-items:center;font-weight:1000;font-size:22px;box-shadow:0 0 28px #53fc1830}
 h1{font-size:22px;margin:0;letter-spacing:-.5px}.sub{color:var(--muted);font-size:13px}
 .pill{border:1px solid var(--line);background:#101a13;border-radius:99px;padding:8px 12px;color:var(--muted);font-size:12px}.dot{display:inline-block;width:8px;height:8px;background:#6c7b70;border-radius:50%;margin-right:7px}.dot.on{background:var(--green);box-shadow:0 0 10px var(--green)}
-.grid{display:grid;grid-template-columns:340px 1fr;gap:18px}.panel{background:linear-gradient(180deg,#131d17,#0f1712);border:1px solid var(--line);border-radius:17px;padding:19px;box-shadow:0 12px 36px #0003}
+.grid{display:grid;grid-template-columns:340px 1fr;gap:18px}.stream-panel{margin-bottom:18px}.stream-layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(280px,1fr);gap:12px}.stream-player,.stream-chat{background:#050805;border:1px solid var(--line);border-radius:12px;overflow:hidden;min-width:0}.stream-player{aspect-ratio:16/9}.stream-player iframe{width:100%;height:100%;border:0;display:block}.stream-chat{height:100%;min-height:360px}.stream-chat iframe{width:100%;height:100%;min-height:360px;border:0;display:block}.panel{background:linear-gradient(180deg,#131d17,#0f1712);border:1px solid var(--line);border-radius:17px;padding:19px;box-shadow:0 12px 36px #0003}
 .panel h2{font-size:15px;margin:0 0 14px}.channel{display:flex;align-items:center;gap:12px;padding:14px;background:var(--panel2);border-radius:13px;margin-bottom:18px}.avatar{width:42px;height:42px;border-radius:50%;background:#263b2b;display:grid;place-items:center;color:var(--green);font-weight:900}
 a{color:var(--green);text-decoration:none}.btn{border:0;border-radius:10px;background:var(--green);color:#071006;font-weight:800;padding:11px 14px;cursor:pointer}.btn.secondary{background:#1b2a20;color:var(--white);border:1px solid var(--line)}.btn:disabled{opacity:.55;cursor:wait}
 label{display:block;color:#a9b9ae;font-size:12px;margin:12px 0 6px}input{width:100%;background:#0a100c;border:1px solid var(--line);border-radius:9px;padding:11px;color:var(--white);outline:none}input:focus{border-color:var(--green)}
 .addrow{display:grid;grid-template-columns:1fr 48px;gap:8px}.colorrow{display:flex;align-items:center;gap:9px}.colorrow input[type=color]{width:44px;height:39px;padding:3px;cursor:pointer}.keywords{display:flex;flex-direction:column;gap:8px;margin-top:14px}.keyword{display:flex;align-items:center;gap:9px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:#0d1510}.swatch{width:11px;height:11px;border-radius:3px}.keyword strong{flex:1;font-size:13px}.remove{border:0;background:transparent;color:#8fa196;font-size:18px;cursor:pointer}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}.stat{padding:12px;border-radius:12px;background:#0b130e;border:1px solid var(--line)}.stat b{font-size:21px;display:block}.stat span{font-size:11px;color:var(--muted)}
 .toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.messages{height:540px;overflow:auto;display:flex;flex-direction:column;gap:8px;padding-right:4px}.msg{background:#0c140f;border:1px solid #1d2a21;border-radius:11px;padding:11px 12px}.msg .who{color:#a8b9ad;font-size:12px;margin-bottom:3px}.msg p{margin:0;overflow-wrap:anywhere}.hit{border-color:#456d38;background:#142217;box-shadow:inset 3px 0 var(--green)}.empty{color:var(--muted);text-align:center;padding:70px 12px}.hint{font-size:12px;color:var(--muted);margin-top:12px}.notice{padding:11px 12px;background:#211d10;border:1px solid #51431e;color:#e9d69a;border-radius:10px;font-size:12px;margin-top:12px}.statusline{font-size:12px;color:var(--muted);margin-top:10px;overflow-wrap:anywhere}.history{margin-top:16px;border-top:1px solid var(--line);padding-top:16px}.history-list{display:flex;flex-direction:column;gap:8px;max-height:360px;overflow:auto}.history-item{padding:11px;background:#0b130e;border:1px solid var(--line);border-radius:10px}.history-actions{display:flex;gap:8px;flex-wrap:wrap}
-@media(max-width:800px){.grid{grid-template-columns:1fr}.messages{height:430px}.top{align-items:flex-start;flex-direction:column}.stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:800px){.stream-layout{grid-template-columns:1fr}.stream-chat{height:480px}.stream-chat iframe{height:100%}.grid{grid-template-columns:1fr}.messages{height:430px}.top{align-items:flex-start;flex-direction:column}.stats{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
 <body><main class="wrap">
 <header class="top"><div class="brand"><div class="logo">K</div><div><h1>KICK CHAT RADAR</h1><div class="sub">Keyword monitoring dashboard</div></div></div><div class="pill"><span id="dot" class="dot"></span><span id="connection">Waiting for chat events</span></div></header>
+
+<section class="panel stream-panel">
+  <div class="toolbar"><div><h2 style="margin:0">WATCH LIVE</h2><div class="sub">Watch deenTheGreat directly on Kick Chat Radar</div></div><a href="https://kick.com/deenthegreat" target="_blank" rel="noreferrer">Open on Kick ↗</a></div>
+  <div class="stream-layout">
+    <div class="stream-player"><iframe src="https://player.kick.com/deenthegreat" title="deenTheGreat live stream" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+    <div class="stream-chat"><iframe src="https://chat.kick.cx/embed/deenthegreat" title="deenTheGreat Kick live chat" loading="lazy"></iframe></div>
+  </div>
+  <div class="hint">The video uses Kick's official embedded player. The interactive chat is embedded through KickCX, a third-party chat provider.</div>
+</section>
+
 <div class="grid">
 <aside>
 <section class="panel">
