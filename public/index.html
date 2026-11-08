@@ -80,7 +80,7 @@ hr{border-color:#f2d5e0!important}
   <div class="multi-stream-grid">
     <article class="stream-card">
       <div class="stream-card-head"><div><b>♡ deenTheGreat</b><div class="sub">Main stream</div></div><a href="https://kick.com/deenthegreat" target="_blank" rel="noreferrer">Open channel ↗</a></div>
-      <div class="stream-player"><iframe src="https://player.kick.com/deenthegreat" title="deenTheGreat live stream" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+      <div class="stream-player"><iframe src="https://player.kick.com/deenthegreat?muted=false" title="deenTheGreat live stream" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
       <div class="chat-label">LIVE CHAT · DEENTHEGREAT</div>
       <div class="stream-chat"><iframe src="https://chat.kick.cx/embed/deenthegreat" title="deenTheGreat Kick live chat" loading="lazy"></iframe></div>
     </article>
@@ -97,7 +97,7 @@ hr{border-color:#f2d5e0!important}
     <div class="addrow"><input id="secondStreamer" placeholder="Enter Kick username (e.g. xqc)" maxlength="25" autocomplete="off"><button class="btn" id="addSecondStreamer">Add</button></div>
     <div class="hint">Your second streamer is saved in this browser, so it stays selected when you come back on this device.</div>
   </div>
-  <div class="hint">Each panel has its own Kick player and chat window. Chat embeds are provided by KickCX, a third-party chat embed service.</div>
+  <div class="hint">Volume without fullscreen: hover over either video, click its speaker icon, and drag the volume slider to 100%. Each player has its own volume. Sound is enabled by default (muted=false). Chat embeds are provided by KickCX, a third-party chat embed service.</div>
 </section>
 
 <div class="grid">
@@ -158,7 +158,7 @@ function setSecondStreamer(raw){
   if(!/^[a-z0-9_]{1,25}$/.test(slug)){ $("secondStreamStatus").textContent="Enter a valid Kick username"; return; }
   localStorage.setItem("kick-radar-second-streamer",slug);
   $("secondStreamer").value=slug;
-  $("secondPlayerFrame").src="https://player.kick.com/"+encodeURIComponent(slug);
+  $("secondPlayerFrame").src="https://player.kick.com/"+encodeURIComponent(slug)+"?muted=false";
   $("secondChatFrame").src="https://chat.kick.cx/embed/"+encodeURIComponent(slug);
   $("secondPlayerFrame").title=slug+" live stream";
   $("secondChatFrame").title=slug+" Kick live chat";
