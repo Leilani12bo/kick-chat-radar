@@ -142,9 +142,11 @@ $("testSound").onclick=sound;
 function matchedRules(text){const lower=text.toLowerCase();return rules.filter(r=>lower.includes(r.word.toLowerCase()))}
 function renderMessage(m){total++;$("count").textContent=total;const hits=matchedRules(m.content||"");if(hits.length){matches++;$("matches").textContent=matches;sound();saveHighlight(m,hits)}
 const div=document.createElement("div");div.className="msg"+(hits.length?" hit":"");
+const channel=String(m.channel||"deenthegreat").toLowerCase();
+const channelLabel=channel==="deenthegreat"?"deenTheGreat":channel;
 const content=esc(m.content||"");let decorated=content;
 for(const r of [...hits].sort((a,b)=>b.word.length-a.word.length)){const escaped=r.word.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');decorated=decorated.replace(new RegExp(escaped,"gi"),match=>`<mark style="background:${r.color};color:#071006;border-radius:3px;padding:0 2px;font-weight:800">${match}</mark>`)}
-div.innerHTML=`<div class="who">${esc(m.username||"Viewer")} ${hits.length?`<span style="color:#9ad77d">· ${hits.map(h=>esc(h.word)).join(", ")}</span>`:""}</div><p>${decorated}</p>`;
+div.innerHTML=`<div class="who">${esc(m.username||"Viewer")} <span style="color:#d76596">· @${esc(channelLabel)}</span> ${hits.length?`<span style="color:#d76596">· ${hits.map(h=>esc(h.word)).join(", ")}</span>`:""}</div><p>${decorated}</p>`;
 const box=$("messages");if(box.querySelector(".empty"))box.innerHTML="";box.prepend(div);while(box.children.length>100)box.lastChild.remove();
 }
 async function saveHighlight(m,hits){try{await fetch("/api/highlights",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:m.id||[m.createdAt,m.username,m.content].join("|"),username:m.username,content:m.content,channel:m.channel,createdAt:m.createdAt,matchedKeywords:hits.map(h=>h.word)})})}catch(e){console.warn("Could not save highlight",e)}}
@@ -171,7 +173,21 @@ function setSecondStreamer(raw){
   link.href="https://kick.com/"+encodeURIComponent(slug);
   link.textContent="Open channel ↗";
 }
-$("addSecondStreamer").onclick=()=>setSecondStreamer($("secondStreamer").value);
+async function enableSecondChannelAlerts(raw){
+  const slug=String(raw||"").trim().replace(/^@/,"").toLowerCase();
+  if(!/^[a-z0-9_]{1,25}$/.test(slug))return;
+  $("secondStreamStatus").textContent="Connecting chat alerts…";
+  try{
+    const response=await fetch("/api/subscribe-channel",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:slug})});
+    const data=await response.json();
+    if(!response.ok)throw new Error(data.error||"Could not connect second chat alerts.");
+    $("secondStreamStatus").textContent="@" + slug + " · alerts on";
+  }catch(error){
+    $("secondStreamStatus").textContent="Video/chat added · alerts not connected";
+    $("setupStatus").textContent=error.message;
+  }
+}
+$("addSecondStreamer").onclick=async()=>{const slug=$("secondStreamer").value;setSecondStreamer(slug);if($("secondStreamStatus").textContent!=="Enter a valid Kick username")await enableSecondChannelAlerts(slug);};
 $("secondStreamer").addEventListener("keydown",e=>{if(e.key==="Enter")$("addSecondStreamer").click()});
 const savedSecondStreamer=localStorage.getItem("kick-radar-second-streamer");
 if(savedSecondStreamer)setSecondStreamer(savedSecondStreamer);
