@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kick Chat Radar</title>
+<style>
+:root{color-scheme:dark;--bg:#090d0b;--panel:#111a15;--panel2:#17221b;--line:#26352b;--green:#53fc18;--muted:#8fa196;--white:#edf5ef}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#17331d 0,transparent 42%),var(--bg);color:var(--white);font:15px/1.45 Inter,system-ui,Arial,sans-serif}
+.wrap{max-width:1180px;margin:auto;padding:28px 20px 60px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}
+.brand{display:flex;align-items:center;gap:13px}.logo{width:44px;height:44px;border-radius:13px;background:var(--green);color:#071006;display:grid;place-items:center;font-weight:1000;font-size:22px;box-shadow:0 0 28px #53fc1830}
+h1{font-size:22px;margin:0;letter-spacing:-.5px}.sub{color:var(--muted);font-size:13px}
+.pill{border:1px solid var(--line);background:#101a13;border-radius:99px;padding:8px 12px;color:var(--muted);font-size:12px}.dot{display:inline-block;width:8px;height:8px;background:#6c7b70;border-radius:50%;margin-right:7px}.dot.on{background:var(--green);box-shadow:0 0 10px var(--green)}
+.grid{display:grid;grid-template-columns:340px 1fr;gap:18px}.panel{background:linear-gradient(180deg,#131d17,#0f1712);border:1px solid var(--line);border-radius:17px;padding:19px;box-shadow:0 12px 36px #0003}
+.panel h2{font-size:15px;margin:0 0 14px}.channel{display:flex;align-items:center;gap:12px;padding:14px;background:var(--panel2);border-radius:13px;margin-bottom:18px}.avatar{width:42px;height:42px;border-radius:50%;background:#263b2b;display:grid;place-items:center;color:var(--green);font-weight:900}
+a{color:var(--green);text-decoration:none}.btn{border:0;border-radius:10px;background:var(--green);color:#071006;font-weight:800;padding:11px 14px;cursor:pointer}.btn.secondary{background:#1b2a20;color:var(--white);border:1px solid var(--line)}.btn:disabled{opacity:.55;cursor:wait}
+label{display:block;color:#a9b9ae;font-size:12px;margin:12px 0 6px}input{width:100%;background:#0a100c;border:1px solid var(--line);border-radius:9px;padding:11px;color:var(--white);outline:none}input:focus{border-color:var(--green)}
+.addrow{display:grid;grid-template-columns:1fr 48px;gap:8px}.colorrow{display:flex;align-items:center;gap:9px}.colorrow input[type=color]{width:44px;height:39px;padding:3px;cursor:pointer}.keywords{display:flex;flex-direction:column;gap:8px;margin-top:14px}.keyword{display:flex;align-items:center;gap:9px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:#0d1510}.swatch{width:11px;height:11px;border-radius:3px}.keyword strong{flex:1;font-size:13px}.remove{border:0;background:transparent;color:#8fa196;font-size:18px;cursor:pointer}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}.stat{padding:12px;border-radius:12px;background:#0b130e;border:1px solid var(--line)}.stat b{font-size:21px;display:block}.stat span{font-size:11px;color:var(--muted)}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.messages{height:540px;overflow:auto;display:flex;flex-direction:column;gap:8px;padding-right:4px}.msg{background:#0c140f;border:1px solid #1d2a21;border-radius:11px;padding:11px 12px}.msg .who{color:#a8b9ad;font-size:12px;margin-bottom:3px}.msg p{margin:0;overflow-wrap:anywhere}.hit{border-color:#456d38;background:#142217;box-shadow:inset 3px 0 var(--green)}.empty{color:var(--muted);text-align:center;padding:70px 12px}.hint{font-size:12px;color:var(--muted);margin-top:12px}.notice{padding:11px 12px;background:#211d10;border:1px solid #51431e;color:#e9d69a;border-radius:10px;font-size:12px;margin-top:12px}.statusline{font-size:12px;color:var(--muted);margin-top:10px;overflow-wrap:anywhere}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.messages{height:430px}.top{align-items:flex-start;flex-direction:column}.stats{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body><main class="wrap">
+<header class="top"><div class="brand"><div class="logo">K</div><div><h1>KICK CHAT RADAR</h1><div class="sub">Keyword monitoring dashboard</div></div></div><div class="pill"><span id="dot" class="dot"></span><span id="connection">Waiting for chat events</span></div></header>
+<div class="grid">
+<aside>
+<section class="panel">
+<h2>MONITORED CHANNEL</h2>
+<div class="channel"><div class="avatar">D</div><div style="flex:1"><b>deenTheGreat</b><div class="sub"><a href="https://kick.com/deenthegreat" target="_blank" rel="noreferrer">kick.com/deenthegreat ↗</a></div></div></div>
+<h2>KEYWORD ALERTS</h2>
+<label for="word">Keyword or phrase</label><div class="addrow"><input id="word" placeholder="e.g. giveaway" maxlength="60"><button class="btn" id="add">+</button></div>
+<label>Highlight color</label><div class="colorrow"><input id="color" type="color" value="#53fc18"><span class="sub">Choose the color used in chat highlights</span></div>
+<div id="keywords" class="keywords"></div>
+<div class="hint">Matches ignore capitalization. Each keyword can have its own color.</div>
+<hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+<h2>SOUND ALERTS</h2>
+<button class="btn secondary" id="testSound" style="width:100%">▶ Test alert sound</button>
+<div class="hint">Click once to enable audio in this browser tab. Alerts play when a keyword is found.</div>
+<div id="setupMsg" class="notice">The site must be deployed and connected to your Kick Developer app before real chat messages can arrive.</div>
+<button class="btn secondary" id="subscribe" style="width:100%;margin-top:12px">Set up Kick chat subscription</button>
+<div id="setupStatus" class="statusline"></div>
+</section>
+</aside>
+<section class="panel">
+<div class="toolbar"><div><h2 style="margin:0">LIVE CHAT MATCHES</h2><div class="sub">Messages containing your tracked keywords</div></div><button class="btn secondary" id="clear">Clear view</button></div>
+<div class="stats"><div class="stat"><b id="count">0</b><span>MESSAGES RECEIVED</span></div><div class="stat"><b id="matches">0</b><span>KEYWORD MATCHES</span></div><div class="stat"><b id="tracked">0</b><span>TRACKED WORDS</span></div></div>
+<div id="messages" class="messages"><div class="empty">Waiting for chat messages…<br><span class="sub">When Kick sends a chat event, it will appear here.</span></div></div>
+</section>
+</div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+let rules=JSON.parse(localStorage.getItem("kick-radar-rules")||"[]"), total=0, matches=0, audioCtx=null, es=null;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function save(){localStorage.setItem("kick-radar-rules",JSON.stringify(rules));renderRules();$("tracked").textContent=rules.length}
+function renderRules(){$("keywords").innerHTML=rules.length?rules.map((r,i)=>`<div class="keyword"><span class="swatch" style="background:${r.color}"></span><strong>${esc(r.word)}</strong><input aria-label="Change ${esc(r.word)} color" type="color" value="${r.color}" data-color="${i}" style="width:38px;height:30px;padding:2px"><button class="remove" data-remove="${i}" aria-label="Remove ${esc(r.word)}">×</button></div>`).join(""):'<div class="sub">No keywords added yet.</div>'}
+$("add").onclick=()=>{const word=$("word").value.trim();if(!word)return;if(rules.some(r=>r.word.toLowerCase()===word.toLowerCase()))return;$("word").value="";rules.push({word,color:$("color").value});save()};
+$("word").addEventListener("keydown",e=>{if(e.key==="Enter")$("add").click()});
+$("keywords").addEventListener("click",e=>{const i=e.target.dataset.remove;if(i!==undefined){rules.splice(Number(i),1);save()}});
+$("keywords").addEventListener("input",e=>{const i=e.target.dataset.color;if(i!==undefined){rules[Number(i)].color=e.target.value;save()}});
+function sound(){try{audioCtx ||= new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==="suspended")audioCtx.resume();const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.type="sine";osc.frequency.setValueAtTime(880,audioCtx.currentTime);osc.frequency.setValueAtTime(660,audioCtx.currentTime+.12);gain.gain.setValueAtTime(.0001,audioCtx.currentTime);gain.gain.exponentialRampToValueAtTime(.22,audioCtx.currentTime+.02);gain.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+.32);osc.connect(gain);gain.connect(audioCtx.destination);osc.start();osc.stop(audioCtx.currentTime+.34)}catch(e){console.warn("Audio unavailable",e)}}
+$("testSound").onclick=sound;
+function matchedRules(text){const lower=text.toLowerCase();return rules.filter(r=>lower.includes(r.word.toLowerCase()))}
+function renderMessage(m){total++;$("count").textContent=total;const hits=matchedRules(m.content||"");if(hits.length){matches++;$("matches").textContent=matches;sound()}
+const div=document.createElement("div");div.className="msg"+(hits.length?" hit":"");
+const content=esc(m.content||"");let decorated=content;
+for(const r of [...hits].sort((a,b)=>b.word.length-a.word.length)){const escaped=r.word.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');decorated=decorated.replace(new RegExp(escaped,"gi"),match=>`<mark style="background:${r.color};color:#071006;border-radius:3px;padding:0 2px;font-weight:800">${match}</mark>`)}
+div.innerHTML=`<div class="who">${esc(m.username||"Viewer")} ${hits.length?`<span style="color:#9ad77d">· ${hits.map(h=>esc(h.word)).join(", ")}</span>`:""}</div><p>${decorated}</p>`;
+const box=$("messages");if(box.querySelector(".empty"))box.innerHTML="";box.prepend(div);while(box.children.length>100)box.lastChild.remove();
+}
+function connect(){if(es)es.close();es=new EventSource("/api/events");es.onopen=()=>{$("dot").classList.add("on");$("connection").textContent="Dashboard connected"};es.onerror=()=>{$("dot").classList.remove("on");$("connection").textContent="Reconnecting…"};es.onmessage=e=>{const d=JSON.parse(e.data);if(d.type==="chat")renderMessage(d.message);if(d.type==="history"){d.messages.reverse().forEach(m=>{const box=$("messages");if(box.querySelector(".empty"))box.innerHTML="";const div=document.createElement("div");div.className="msg";div.innerHTML=`<div class="who">${esc(m.username)}</div><p>${esc(m.content)}</p>`;box.append(div)})}}}
+$("clear").onclick=()=>{$("messages").innerHTML='<div class="empty">View cleared. Listening for new messages…</div>';total=0;matches=0;$("count").textContent="0";$("matches").textContent="0"};
+$("subscribe").onclick=async()=>{const b=$("subscribe");b.disabled=true;b.textContent="Requesting subscription…";$("setupStatus").textContent="";try{const r=await fetch("/api/subscribe",{method:"POST"}),d=await r.json();if(!r.ok)throw Error(d.error+(d.details?" — "+JSON.stringify(d.details):""));$("setupStatus").textContent="Kick subscription request sent. Webhook: "+d.webhookUrl;b.textContent="Subscription requested"}catch(e){$("setupStatus").textContent=e.message;b.textContent="Try setup again"}finally{b.disabled=false}};
+async function status(){try{const r=await fetch("/api/status"),d=await r.json();if(d.webhookCount>0){$("setupMsg").textContent=`Webhook received ${d.webhookCount} chat event(s). Last event: ${d.lastEventAt}`}else if(!d.configured){$("setupMsg").textContent="Hosting setup required: add Kick app credentials and channel user ID in your host's environment variables."}}catch{}}
+save();connect();status();setInterval(status,10000);
+</script></body></html>
