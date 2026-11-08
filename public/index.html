@@ -74,6 +74,8 @@ hr{border-color:#f2d5e0!important}
 /* Highlighted messages sit directly below the stream players */
 .highlight-near-stream{margin-top:16px}.highlight-near-stream .panel{padding:17px}.highlight-near-stream .messages{height:300px}
 
+/* Keep the second stream hidden until a username is added */
+[hidden]{display:none!important}
 /* Compact pull-down tab for adding a second streamer */
 .second-stream-drawer{margin:14px 0 0}
 .second-stream-drawer>summary{list-style:none;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid #f0cddd;border-radius:999px;background:#fff4f8;color:#a04f72;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px #d76d9915}
@@ -114,7 +116,7 @@ hr{border-color:#f2d5e0!important}
       <div class="chat-label">LIVE CHAT · DEENTHEGREAT</div>
       <div class="stream-chat"><iframe src="https://chat.kick.cx/embed/deenthegreat" title="deenTheGreat Kick live chat" loading="lazy"></iframe></div>
     </article>
-    <article class="stream-card" id="secondStreamCard">
+    <article class="stream-card" id="secondStreamCard" hidden>
       <div class="stream-card-head"><div><b>♡ SECOND STREAM</b><div class="sub">Add another streamer below</div></div><span class="sub" id="secondStreamStatus">Not added yet</span></div>
       <div class="second-stream-empty" id="secondStreamEmpty">♡<br><span>Add a Kick username to watch another stream</span></div>
       <div class="stream-player" id="secondStreamPlayer" hidden><iframe id="secondPlayerFrame" title="Second Kick livestream" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
@@ -200,6 +202,7 @@ function setSecondStreamer(raw){
   $("secondChatFrame").src="https://chat.kick.cx/embed/"+encodeURIComponent(slug);
   $("secondPlayerFrame").title=slug+" live stream";
   $("secondChatFrame").title=slug+" Kick live chat";
+  $("secondStreamCard").hidden=false;
   $("secondStreamCard").classList.add("has-stream");
   $("secondStreamPlayer").hidden=false;
   $("secondStreamChat").hidden=false;
