@@ -154,11 +154,32 @@ body[data-theme="ocean"] .stream-player,body[data-theme="ocean"] .stream-chat,bo
 body[data-theme="ocean"] label,body[data-theme="ocean"] .sub,body[data-theme="ocean"] .hint,body[data-theme="ocean"] .statusline{color:#6f96a8!important}body[data-theme="ocean"] a{color:#268bb5}body[data-theme="ocean"] .btn{background:linear-gradient(135deg,#83d2ed,#399fc6);color:white}body[data-theme="ocean"] .btn.secondary,body[data-theme="ocean"] .theme-tab{background:#eaf8fd;color:#347b99;border-color:#c9e5f1}body[data-theme="ocean"] .stat b{color:#399fc6}body[data-theme="ocean"] .hit{background:#e5f5fc!important;border-color:#43a9cf!important;box-shadow:inset 3px 0 #43a9cf!important}
 @media(max-width:600px){.theme-panel{top:112px;right:12px}}
 
+
+/* White and custom color themes + stronger typography */
+body[data-theme="white"]{--bg:#f7f9fc;--panel:#fff;--panel2:#f1f4f8;--line:#e0e5ec;--green:#64748b;--muted:#64748b;--white:#172033;background:linear-gradient(145deg,#fff,#f3f6fa 70%,#edf1f7);color:#172033;font-family:Inter,system-ui,Arial,sans-serif}
+body[data-theme="white"] h1,body[data-theme="white"] .panel h2{color:#263449}
+body[data-theme="white"] .logo{background:linear-gradient(145deg,#64748b,#334155);color:#fff}
+body[data-theme="white"] .panel,body[data-theme="white"] .stream-card,body[data-theme="white"] .channel,body[data-theme="white"] .keyword,body[data-theme="white"] .stat,body[data-theme="white"] .msg,body[data-theme="white"] .history-item,body[data-theme="white"] .second-stream-controls{background:#fff!important;border-color:#e0e5ec!important;color:#172033!important}
+body[data-theme="white"] .stream-player,body[data-theme="white"] .stream-chat,body[data-theme="white"] .second-stream-empty{background:#f1f4f8!important;border-color:#e0e5ec!important}
+body[data-theme="white"] input{background:#fff!important;border-color:#d8dee8!important;color:#172033!important}
+body[data-theme="white"] label,body[data-theme="white"] .sub,body[data-theme="white"] .hint,body[data-theme="white"] .statusline,body[data-theme="white"] .msg .who{color:#596579!important}
+body[data-theme="white"] a{color:#475569}body[data-theme="white"] .btn{background:#475569;color:white}body[data-theme="white"] .btn.secondary,body[data-theme="white"] .theme-tab{background:#f1f4f8;color:#334155;border-color:#d8dee8}
+body[data-theme="white"] .stat b{color:#334155}body[data-theme="white"] .hit{background:#f1f4f8!important;border-color:#94a3b8!important;box-shadow:inset 3px 0 #64748b!important}
+body[data-theme="custom"]{--accent:var(--custom-accent,#e879a7);background:linear-gradient(145deg,#fff8fb,#fff 65%,#f7f3ff);color:#563847}
+body[data-theme="custom"] .logo,body[data-theme="custom"] .btn:not(.secondary){background:var(--accent);color:#fff}
+body[data-theme="custom"] a,body[data-theme="custom"] .stat b{color:var(--accent)}
+body[data-theme="custom"] .btn.secondary,body[data-theme="custom"] .theme-tab{border-color:var(--accent);color:var(--accent)}
+body[data-theme="custom"] .hit{border-color:var(--accent);box-shadow:inset 3px 0 var(--accent)}
+body[data-theme="custom"] input:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 15%,transparent)}
+body{font-weight:600}
+body button,body input,body label,body .sub,body .hint,body .statusline,body .msg,body .history-item{font-weight:600}
+body .panel h2,body .stream-card-head,body .chat-label{font-weight:800}
+
 </style>
 </head>
 <body><main class="wrap">
 <header class="top"><div class="brand"><div class="logo">K</div><div><h1>KICK CHAT RADAR</h1><div class="sub">your pretty little live-stream control room ♡</div></div></div><button class="theme-tab" id="themeTab" type="button" aria-expanded="false">🎨 Theme</button><div class="pill"><span id="dot" class="dot"></span><span id="connection">Waiting for chat events</span></div></header>
-<section class="theme-panel" id="themePanel" aria-label="Website themes"><h2>Choose your vibe ♡</h2><p>Change the look of your whole dashboard. Your choice is saved on this device.</p><div class="theme-options"><button class="theme-choice" data-theme-choice="blush" aria-pressed="true"><span class="theme-swatch" style="background:linear-gradient(135deg,#f8b8d0,#df6f9f)"></span>Blush Pink</button><button class="theme-choice" data-theme-choice="lavender" aria-pressed="false"><span class="theme-swatch" style="background:linear-gradient(135deg,#c9b8ff,#9276dc)"></span>Lavender</button><button class="theme-choice" data-theme-choice="midnight" aria-pressed="false"><span class="theme-swatch" style="background:linear-gradient(135deg,#17221b,#53fc18)"></span>Midnight Dark</button><button class="theme-choice" data-theme-choice="ocean" aria-pressed="false"><span class="theme-swatch" style="background:linear-gradient(135deg,#83d2ed,#399fc6)"></span>Ocean Blue</button></div><button class="btn secondary theme-close" id="closeThemePanel" type="button">Done</button></section>
+<section class="theme-panel" id="themePanel" aria-label="Website themes"><h2>Choose your vibe ♡</h2><p>Change the look of your whole dashboard. Your choice is saved on this device.</p><div class="theme-options"><button class="theme-choice" data-theme-choice="blush" aria-pressed="true"><span class="theme-swatch" style="background:linear-gradient(135deg,#f8b8d0,#df6f9f)"></span>Blush Pink</button><button class="theme-choice" data-theme-choice="lavender" aria-pressed="false"><span class="theme-swatch" style="background:linear-gradient(135deg,#c9b8ff,#9276dc)"></span>Lavender</button><button class="theme-choice" data-theme-choice="midnight" aria-pressed="false"><span class="theme-swatch" style="background:linear-gradient(135deg,#17221b,#53fc18)"></span>Midnight Dark</button><button class="theme-choice" data-theme-choice="ocean" aria-pressed="false"><span class="theme-swatch" style="background:linear-gradient(135deg,#83d2ed,#399fc6)"></span>Ocean Blue</button><button class="theme-choice" data-theme-choice="white" aria-pressed="false"><span class="theme-swatch" style="background:linear-gradient(135deg,#ffffff,#e8edf2)"></span>Clean White</button></div><label for="customThemeColor">Your own accent color</label><div class="colorrow"><input id="customThemeColor" type="color" value="#e879a7" aria-label="Choose custom accent color"><span class="sub">Pick any color for buttons and highlights</span></div><button class="btn secondary theme-close" id="closeThemePanel" type="button">Done</button></section>
 <section class="panel stream-panel">
   <div class="toolbar"><div><h2 style="margin:0">MULTI-STREAM LOUNGE ♡</h2><div class="sub">Watch two Kick streamers and follow both chats in one place</div></div><a href="https://kick.com/deenthegreat" target="_blank" rel="noreferrer">Open Kick ↗</a></div>
   <div class="multi-stream-grid">
@@ -293,13 +314,23 @@ async function status(){try{const r=await fetch("/api/status"),d=await r.json();
 save();connect();status();loadHistory();setInterval(status,10000);
 
 // Theme switcher remembers the selected theme on this device.
-const themeNames=["blush","lavender","midnight","ocean"];
+const themeNames=["blush","lavender","midnight","ocean","white","custom"];
 function applyTheme(name){
  const theme=themeNames.includes(name)?name:"blush";
  document.body.dataset.theme=theme;
  localStorage.setItem("kick-radar-theme",theme);
  document.querySelectorAll("[data-theme-choice]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.themeChoice===theme)));
 }
+const customColorInput=$("customThemeColor");
+function applyCustomColor(color){
+ const safe=/^#[0-9a-f]{6}$/i.test(color)?color:"#e879a7";
+ document.body.style.setProperty("--custom-accent",safe);
+ localStorage.setItem("kick-radar-custom-color",safe);
+ customColorInput.value=safe;
+ applyTheme("custom");
+}
+customColorInput.value=localStorage.getItem("kick-radar-custom-color")||"#e879a7";
+customColorInput.addEventListener("input",()=>applyCustomColor(customColorInput.value));
 const themePanel=$("themePanel"),themeTab=$("themeTab");
 themeTab.addEventListener("click",()=>{const open=themePanel.classList.toggle("open");themeTab.setAttribute("aria-expanded",String(open));});
 $("closeThemePanel").addEventListener("click",()=>{themePanel.classList.remove("open");themeTab.setAttribute("aria-expanded","false");});
