@@ -1,5 +1,6 @@
 import express from "express";
 import crypto from "node:crypto";
+import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -8,6 +9,26 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const CHANNEL_SLUG = (process.env.CHANNEL_SLUG || "deenthegreat").toLowerCase();
 const clients = new Set();
+const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, "data");
+const HIGHLIGHTS_FILE = path.join(DATA_DIR, "highlights.json");
+let savedHighlights = [];
+let writeQueue = Promise.resolve();
+async function loadHighlights() {
+  try { savedHighlights = JSON.parse(await fs.readFile(HIGHLIGHTS_FILE, "utf8")); }
+  catch (error) { if (error.code !== "ENOENT") console.error("Could not load highlight history:", error); }
+  if (!Array.isArray(savedHighlights)) savedHighlights = [];
+}
+async function persistHighlights() {
+  await fs.mkdir(DATA_DIR, { recursive: true });
+  const tempFile = HIGHLIGHTS_FILE + ".tmp";
+  await fs.writeFile(tempFile, JSON.stringify(savedHighlights, null, 2), "utf8");
+  await fs.rename(tempFile, HIGHLIGHTS_FILE);
+}
+function queuePersist() {
+  writeQueue = writeQueue.then(persistHighlights).catch(error => console.error("Could not save highlight history:", error));
+  return writeQueue;
+}
+await loadHighlights();
 let latestMessages = [];
 let lastEventAt = null;
 let webhookCount = 0;
@@ -83,6 +104,38 @@ app.get("/api/status", (_req, res) => {
 });
 
 app.get("/api/messages", (_req, res) => res.json(latestMessages));
+app.get("/api/highlights", async (_req, res) => {
+  await writeQueue;
+  res.json(savedHighlights.slice().reverse());
+});
+app.post("/api/highlights", async (req, res) => {
+  const item = req.body || {};
+  if (!item.id || !item.content || !Array.isArray(item.matchedKeywords) || item.matchedKeywords.length === 0) {
+    return res.status(400).json({ error: "A message ID, content, and matched keywords are required." });
+  }
+  const id = String(item.id);
+  if (savedHighlights.some(entry => entry.id === id)) return res.json({ ok: true, duplicate: true });
+  savedHighlights.push({
+    id,
+    username: String(item.username || "Unknown viewer").slice(0, 100),
+    content: String(item.content).slice(0, 5000),
+    channel: String(item.channel || CHANNEL_SLUG).slice(0, 100),
+    createdAt: item.createdAt || new Date().toISOString(),
+    matchedKeywords: item.matchedKeywords.map(value => String(value).slice(0, 60)).slice(0, 30),
+    savedAt: new Date().toISOString()
+  });
+  if (savedHighlights.length > 10000) savedHighlights = savedHighlights.slice(-10000);
+  await queuePersist();
+  res.json({ ok: true });
+});
+app.get("/api/highlights.csv", async (_req, res) => {
+  await writeQueue;
+  const csvCell = value => '"' + String(value ?? "").replace(/"/g, '""') + '"';
+  const rows = [["Saved At", "Message Time", "Channel", "Username", "Message", "Matched Keywords"], ...savedHighlights.map(item => [item.savedAt, item.createdAt, item.channel, item.username, item.content, (item.matchedKeywords || []).join(", ")])];
+  res.setHeader("Content-Type", "text/csv; charset=utf-8");
+  res.setHeader("Content-Disposition", 'attachment; filename="kick-chat-radar-highlights-' + new Date().toISOString().slice(0,10) + '.csv"');
+  res.send("\uFEFF" + rows.map(row => row.map(csvCell).join(",")).join("\r\n"));
+});
 
 app.get("/api/events", (req, res) => {
   res.setHeader("Content-Type", "text/event-stream");
